@@ -1,0 +1,4 @@
+FROM cgr.dev/chainguard/nginx:1.27
+
+COPY frontend /usr/share/nginx/html
+EXPOSE 80

@@ -1,0 +1,1 @@
+"""Service layer for ingestion, analytics, and PM generation."""

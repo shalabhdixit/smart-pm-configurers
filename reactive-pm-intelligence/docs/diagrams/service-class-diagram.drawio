@@ -1,0 +1,38 @@
+<mxfile host="app.diagrams.net" modified="2026-04-20T00:00:00.000Z" agent="GitHub Copilot" version="24.7.17" type="device">
+  <diagram id="service-class-diagram" name="Service Class Diagram">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="2" value="Settings&#xa;app_name&#xa;database_url&#xa;pm_probability_threshold&#xa;llm_provider" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656" vertex="1" parent="1"><mxGeometry x="40" y="60" width="210" height="140" as="geometry"/></mxCell>
+        <mxCell id="3" value="Routes&#xa;+ get_demo_token()&#xa;+ run_pipeline()&#xa;+ portfolio_overview()&#xa;+ assistant_chat()" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf" vertex="1" parent="1"><mxGeometry x="300" y="60" width="240" height="160" as="geometry"/></mxCell>
+        <mxCell id="4" value="PortfolioService&#xa;+ sync_reference_entities()&#xa;+ build_portfolio_overview()" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366" vertex="1" parent="1"><mxGeometry x="620" y="60" width="250" height="130" as="geometry"/></mxCell>
+        <mxCell id="5" value="AssistantService&#xa;+ generate_assistant_response()&#xa;+ _build_prompt()&#xa;+ _call_llm()" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366" vertex="1" parent="1"><mxGeometry x="920" y="60" width="260" height="150" as="geometry"/></mxCell>
+        <mxCell id="6" value="PatternEngine&#xa;+ build_work_order_dataframe()&#xa;+ detect_recurring_patterns()&#xa;+ persist_patterns()" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=0;fillColor=#f8cecc;strokeColor=#b85450" vertex="1" parent="1"><mxGeometry x="620" y="250" width="250" height="150" as="geometry"/></mxCell>
+        <mxCell id="7" value="PredictionEngine&#xa;+ build_training_frame()&#xa;+ train_prediction_model()&#xa;+ predict_patterns()" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=0;fillColor=#f8cecc;strokeColor=#b85450" vertex="1" parent="1"><mxGeometry x="920" y="250" width="260" height="150" as="geometry"/></mxCell>
+        <mxCell id="8" value="PMGenerator&#xa;+ generate_pm_schedule()&#xa;+ generate_pm_schedules()" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=0;fillColor=#f8cecc;strokeColor=#b85450" vertex="1" parent="1"><mxGeometry x="1220" y="250" width="230" height="120" as="geometry"/></mxCell>
+        <mxCell id="9" value="WorkOrder" style="swimlane;fontStyle=1;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6" vertex="1" parent="1"><mxGeometry x="300" y="500" width="180" height="80" as="geometry"/></mxCell>
+        <mxCell id="10" value="PatternRecord" style="swimlane;fontStyle=1;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6" vertex="1" parent="1"><mxGeometry x="540" y="500" width="180" height="80" as="geometry"/></mxCell>
+        <mxCell id="11" value="PredictionRecord" style="swimlane;fontStyle=1;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6" vertex="1" parent="1"><mxGeometry x="780" y="500" width="180" height="80" as="geometry"/></mxCell>
+        <mxCell id="12" value="PMSchedule" style="swimlane;fontStyle=1;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6" vertex="1" parent="1"><mxGeometry x="1020" y="500" width="180" height="80" as="geometry"/></mxCell>
+        <mxCell id="13" value="Facility / Asset / Technician" style="swimlane;fontStyle=1;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6" vertex="1" parent="1"><mxGeometry x="1260" y="500" width="220" height="80" as="geometry"/></mxCell>
+        <mxCell id="30" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="2" target="3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="31" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="3" target="4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="32" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="3" target="5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="33" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="3" target="6"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="34" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="3" target="7"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="35" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="3" target="8"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="36" value="reads" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="6" target="9"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="37" value="writes" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="6" target="10"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="38" value="reads" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="7" target="10"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="39" value="writes" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="7" target="11"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="40" value="reads" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="8" target="11"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="41" value="writes" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="8" target="12"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="42" value="uses" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="4" target="13"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="43" value="uses" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="5" target="4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="44" value="uses" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="5" target="10"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="45" value="uses" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="5" target="11"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

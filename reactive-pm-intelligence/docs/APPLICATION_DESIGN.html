@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactive to PM Intelligence | Application Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#06150f; --panel:rgba(8,31,23,.84); --line:rgba(95,245,187,.14); --mint:#5ff5bb; --text:#eef8f4; --muted:#9fb7ae; --gold:#ffd166; --shadow:0 24px 60px rgba(0,0,0,.35); }
+        * { box-sizing:border-box; }
+        body { margin:0; font-family:"DM Sans",sans-serif; color:var(--text); background:radial-gradient(circle at top left, rgba(95,245,187,.14), transparent 22%), radial-gradient(circle at bottom right, rgba(255,209,102,.1), transparent 18%), linear-gradient(145deg,#03100b 0%,#06150f 42%,#0c231b 100%); }
+        .page { max-width:1320px; margin:0 auto; padding:3rem 1.5rem 4rem; }
+        .hero,.card,.panel,.flow { background:var(--panel); border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow); backdrop-filter:blur(16px); }
+        .hero,.grid-two,.grid-three,.grid-four { display:grid; gap:1rem; }
+        .hero { grid-template-columns:1.1fr .9fr; padding:1.5rem; }
+        .grid-two { grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:1.2rem; }
+        .grid-three { grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:1.2rem; }
+        .grid-four { grid-template-columns:repeat(4,minmax(0,1fr)); margin-top:1.2rem; }
+        .card,.panel,.flow { padding:1.15rem; }
+        .eyebrow { margin:0 0 .8rem; text-transform:uppercase; letter-spacing:.24em; color:var(--mint); font-size:.78rem; }
+        h1,h2,h3 { margin:0; font-family:"Space Grotesk",sans-serif; letter-spacing:-.03em; }
+        h1 { font-size:clamp(2.8rem,6vw,5.1rem); line-height:.95; }
+        h2 { font-size:clamp(1.9rem,4vw,3.1rem); margin-bottom:.9rem; }
+        h3 { font-size:1.08rem; margin-bottom:.5rem; }
+        p { color:rgba(238,248,244,.86); line-height:1.68; }
+        .step { position:relative; padding-left:3rem; }
+        .step::before { content:attr(data-step); position:absolute; left:0; top:.1rem; width:2rem; height:2rem; border-radius:14px; display:grid; place-items:center; font-family:"Space Grotesk",sans-serif; background:linear-gradient(135deg, rgba(255,209,102,.24), rgba(95,245,187,.18)); }
+        .list { margin:.7rem 0 0; padding-left:1rem; line-height:1.7; }
+        @media (max-width:980px){ .hero,.grid-two,.grid-three,.grid-four{ grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">Application Design | Experience + Architecture</p>
+                <h1>Designed To Convert Signal Into Action, Not Just Charts</h1>
+                <p>The application design intentionally balances operational precision and executive storytelling. It is built so that engineers, planners, and leadership all see the same truth from different altitudes.</p>
+            </div>
+            <div class="panel">
+                <p class="eyebrow">Design Philosophy</p>
+                <ul class="list">
+                    <li>Keep raw operational facts intact.</li>
+                    <li>Persist explainable intermediate intelligence, not just final scores.</li>
+                    <li>Shape APIs for real product consumption, not theoretical purity.</li>
+                    <li>Make the UI presentation-grade without disconnecting it from live system state.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="grid-four">
+            <article class="card"><p class="eyebrow">Data</p><h3>Operational fact model</h3><p>Work orders act as the base truth layer, while facilities, assets, and technicians add planning context.</p></article>
+            <article class="card"><p class="eyebrow">Intelligence</p><h3>Derived analytics model</h3><p>Pattern and prediction records make the logic explainable, rebuildable, and business-readable.</p></article>
+            <article class="card"><p class="eyebrow">Action</p><h3>PM publication model</h3><p>Generated PM schedules preserve both normalized fields and the originating source payload.</p></article>
+            <article class="card"><p class="eyebrow">Narrative</p><h3>Executive delivery layer</h3><p>Dashboard, assistant, and HTML deck all operate from the same intelligence backbone.</p></article>
+        </section>
+
+        <section class="grid-two">
+            <article class="flow">
+                <p class="eyebrow">Runtime Design</p>
+                <div class="step" data-step="1"><h3>Startup lifecycle</h3><p>Initialize database, ingest sample data when available, synchronize reference entities, and start the scheduler.</p></div>
+                <div class="step" data-step="2" style="margin-top:1rem;"><h3>Analytics orchestration</h3><p>Truncate rebuildable analytics state, detect recurring patterns, score recurrence risk, and generate PM schedules.</p></div>
+                <div class="step" data-step="3" style="margin-top:1rem;"><h3>Experience delivery</h3><p>Expose the resulting intelligence through FastAPI routes to the dashboard, assistant, and executive deck.</p></div>
+            </article>
+            <article class="panel">
+                <p class="eyebrow">UX Design Intent</p>
+                <ul class="list">
+                    <li>Manual generation prevents noisy or confusing auto-load behavior.</li>
+                    <li>Loader stages make the analytics pipeline visible and trustworthy.</li>
+                    <li>The assistant starts clean and only expands once intelligence exists.</li>
+                    <li>Views support both operator depth and SLT skim speed.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="grid-three">
+            <article class="card"><p class="eyebrow">Security By Design</p><h3>Auth, validation, and rate controls</h3><p>Token-protected routes, request validation, and pilot-safe throttling establish a clear base control posture.</p></article>
+            <article class="card"><p class="eyebrow">Scalability By Design</p><h3>Clean migration path</h3><p>The current architecture keeps production hardening straightforward: PostgreSQL, Redis, worker jobs, model governance.</p></article>
+            <article class="card"><p class="eyebrow">Narrative By Design</p><h3>Business-readable intelligence</h3><p>Every output is shaped to answer not just what happened, but what should happen next and why it matters commercially.</p></article>
+        </section>
+    </div>
+</body>
+</html>

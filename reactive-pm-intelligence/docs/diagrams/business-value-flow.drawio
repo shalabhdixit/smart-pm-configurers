@@ -1,0 +1,22 @@
+<mxfile host="app.diagrams.net" modified="2026-04-20T00:00:00.000Z" agent="GitHub Copilot" version="24.7.17" type="device">
+  <diagram id="business-value-flow" name="Business Value Flow">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="2" value="Business Problem&#xa;repeat failures&#xa;high emergency spend&#xa;tenant disruption" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1"><mxGeometry x="60" y="230" width="210" height="110" as="geometry"/></mxCell>
+        <mxCell id="3" value="Operational Data Asset&#xa;historical work orders&#xa;asset context&#xa;technician context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="1"><mxGeometry x="330" y="230" width="210" height="110" as="geometry"/></mxCell>
+        <mxCell id="4" value="Intelligence Layer&#xa;pattern detection&#xa;risk prediction&#xa;PM recommendation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="1"><mxGeometry x="610" y="230" width="210" height="110" as="geometry"/></mxCell>
+        <mxCell id="5" value="Operating Action&#xa;planner prioritization&#xa;PM generation&#xa;technician alignment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="1"><mxGeometry x="890" y="230" width="210" height="110" as="geometry"/></mxCell>
+        <mxCell id="6" value="Business Outcomes&#xa;lower reactive volume&#xa;better uptime&#xa;improved tenant experience" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1" vertex="1" parent="1"><mxGeometry x="1170" y="230" width="220" height="110" as="geometry"/></mxCell>
+        <mxCell id="7" value="SLT Decision Layer&#xa;pilot expansion&#xa;investment case&#xa;platform roadmap" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1"><mxGeometry x="725" y="450" width="220" height="110" as="geometry"/></mxCell>
+        <mxCell id="30" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="2" target="3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="31" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="3" target="4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="32" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="4" target="5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="33" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="5" target="6"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="34" value="value narrative" style="endArrow=block;endFill=1;html=1" edge="1" parent="1" source="6" target="7"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="35" value="funding + rollout" style="endArrow=block;endFill=1;html=1;dashed=1" edge="1" parent="1" source="7" target="4"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

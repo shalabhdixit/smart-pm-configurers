@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactive to PM Intelligence | SLT Use Case Brief</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#06150f; --panel:rgba(8,31,23,.84); --line:rgba(95,245,187,.14); --mint:#5ff5bb; --gold:#ffd166; --text:#eef8f4; --muted:#9fb7ae; --shadow:0 26px 60px rgba(0,0,0,.36); }
+        * { box-sizing:border-box; }
+        body { margin:0; font-family:"DM Sans",sans-serif; color:var(--text); background:radial-gradient(circle at top left, rgba(95,245,187,.15), transparent 24%), radial-gradient(circle at 90% 15%, rgba(255,209,102,.12), transparent 18%), linear-gradient(145deg,#03100b 0%,#06150f 42%,#0c231b 100%); }
+        .page { max-width:1320px; margin:0 auto; padding:3rem 1.5rem 4rem; }
+        .hero,.card,.panel,.quote { background:var(--panel); border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow); backdrop-filter:blur(16px); }
+        .hero,.grid-two,.grid-three,.grid-four { display:grid; gap:1rem; }
+        .hero { grid-template-columns:1.15fr .85fr; padding:1.5rem; }
+        .grid-two { grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:1.2rem; }
+        .grid-three { grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:1.2rem; }
+        .grid-four { grid-template-columns:repeat(4,minmax(0,1fr)); margin-top:1.2rem; }
+        .card,.panel,.quote { padding:1.2rem; }
+        .eyebrow { margin:0 0 .8rem; text-transform:uppercase; letter-spacing:.24em; color:var(--mint); font-size:.78rem; }
+        h1,h2,h3 { margin:0; font-family:"Space Grotesk",sans-serif; letter-spacing:-.03em; }
+        h1 { font-size:clamp(2.8rem,6vw,5.4rem); line-height:.94; }
+        h2 { font-size:clamp(1.9rem,4vw,3.1rem); margin-bottom:.9rem; }
+        h3 { font-size:1.08rem; margin-bottom:.45rem; }
+        p { color:rgba(238,248,244,.86); line-height:1.7; }
+        .big { font-family:"Space Grotesk",sans-serif; font-size:2.6rem; color:var(--mint); line-height:1; margin-bottom:.4rem; }
+        .list { margin:.7rem 0 0; padding-left:1rem; line-height:1.72; }
+        .tag-row { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1rem; }
+        .tag { display:inline-flex; align-items:center; padding:.62rem .9rem; border-radius:999px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); }
+        .quote { background:linear-gradient(160deg, rgba(255,209,102,.1), rgba(95,245,187,.08)); }
+        @media (max-width:980px){ .hero,.grid-two,.grid-three,.grid-four{ grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">SLT Use Case Brief | Strategic Narrative</p>
+                <h1>Unlock Predictive Leverage From The Maintenance History You Already Own</h1>
+                <p>Reactive to PM Intelligence is a high-credibility, low-regret digital operating play. It mines repeat-failure behavior from existing CAFM-like work-order history and turns that signal into ranked PM opportunities, explainable risk, and leadership-grade insight.</p>
+                <div class="tag-row">
+                    <span class="tag">Capex-light transformation move</span>
+                    <span class="tag">Operational resilience accelerator</span>
+                    <span class="tag">From reactive drag to predictive discipline</span>
+                </div>
+            </div>
+            <div class="quote">
+                <p class="eyebrow">Core Strategic Message</p>
+                <h3>This is not another dashboard. It is a conversion engine for turning repetitive maintenance pain into planned intervention, cost control, and better service credibility.</h3>
+            </div>
+        </section>
+
+        <section class="grid-four">
+            <article class="card"><p class="eyebrow">Problem</p><div class="big">Repeat</div><p>The same failures recur, but the pattern remains trapped in ticket history instead of informing prevention.</p></article>
+            <article class="card"><p class="eyebrow">Exposure</p><div class="big">Urgency</div><p>Reactive work keeps high-value technicians in firefighting mode and increases visible service disruption.</p></article>
+            <article class="card"><p class="eyebrow">Opportunity</p><div class="big">Convert</div><p>Recurring failure signatures can be converted into PM action before the next breakdown wave lands.</p></article>
+            <article class="card"><p class="eyebrow">Impact</p><div class="big">Scale</div><p>The model creates a repeatable pathway from local pilot proof to portfolio-wide operating leverage.</p></article>
+        </section>
+
+        <section class="grid-two">
+            <article class="panel">
+                <p class="eyebrow">Where The Value Comes From</p>
+                <ul class="list">
+                    <li>Lower avoidable emergency maintenance volume.</li>
+                    <li>Better deployment of specialist labor and planning capacity.</li>
+                    <li>Improved tenant-facing reliability for comfort- and mobility-critical assets.</li>
+                    <li>Stronger executive visibility into hotspots, risk concentration, and intervention yield.</li>
+                </ul>
+            </article>
+            <article class="panel">
+                <p class="eyebrow">Why Leadership Should Care</p>
+                <ul class="list">
+                    <li>It monetizes existing operational data before requiring broader platform change.</li>
+                    <li>It creates a commercially legible story around predictive maintenance investment.</li>
+                    <li>It turns maintenance history into a strategic asset instead of a reporting archive.</li>
+                    <li>It supports a pragmatic pilot-to-production journey rather than a transformation cliff edge.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="grid-three">
+            <article class="card"><p class="eyebrow">Catchy Value Line</p><h3>Mine The Past. Protect The Future.</h3><p>Historical failures become future-proofing intelligence.</p></article>
+            <article class="card"><p class="eyebrow">Catchy Value Line</p><h3>Stop Paying Twice For The Same Failure.</h3><p>Repeat breakdowns should become planned interventions, not repeat invoices.</p></article>
+            <article class="card"><p class="eyebrow">Catchy Value Line</p><h3>From Ticket History To Operating Foresight.</h3><p>The platform gives leadership a forward-looking lens on maintenance risk.</p></article>
+        </section>
+
+        <section class="panel">
+            <p class="eyebrow">Executive Recommendation</p>
+            <h2>Move From Proof To Pilot Expansion</h2>
+            <p>The concept is strong because it is already operationally coherent. It connects data, analytics, PM action, and leadership narrative without forcing a rip-and-replace decision. The next smart move is to validate recurrence precision and PM conversion yield on a live account, then harden the stack for enterprise scaling.</p>
+        </section>
+    </div>
+</body>
+</html>

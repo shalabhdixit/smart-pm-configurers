@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactive to PM Intelligence | SLT Executive Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #05140f;
+            --panel: rgba(7, 28, 21, 0.78);
+            --panel-strong: rgba(8, 35, 27, 0.92);
+            --line: rgba(125, 255, 208, 0.14);
+            --mint: #62f7be;
+            --mint-strong: #1fe58f;
+            --gold: #ffd166;
+            --pearl: #eef8f4;
+            --muted: #9db5ac;
+            --ink: #04100c;
+            --rose: #ff8a7a;
+            --shadow: 0 30px 80px rgba(0, 0, 0, 0.38);
+            --radius: 28px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            color: var(--pearl);
+            background:
+                radial-gradient(circle at top left, rgba(31, 229, 143, 0.2), transparent 24%),
+                radial-gradient(circle at 85% 20%, rgba(255, 209, 102, 0.12), transparent 18%),
+                radial-gradient(circle at bottom right, rgba(255, 138, 122, 0.16), transparent 24%),
+                linear-gradient(140deg, #03100b 0%, #05140f 38%, #0a221a 100%);
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: auto;
+            width: 28rem;
+            height: 28rem;
+            border-radius: 999px;
+            filter: blur(90px);
+            opacity: 0.24;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::before {
+            top: -9rem;
+            right: -6rem;
+            background: rgba(31, 229, 143, 0.28);
+        }
+
+        body::after {
+            bottom: -12rem;
+            left: -6rem;
+            background: rgba(255, 209, 102, 0.16);
+        }
+
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 10;
+        }
+
+        .progress > span {
+            display: block;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--mint), #9fffe0);
+            box-shadow: 0 0 18px rgba(31, 229, 143, 0.45);
+        }
+
+        .rail {
+            position: fixed;
+            right: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .rail a {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+            box-shadow: 0 0 0 0 rgba(31, 229, 143, 0);
+            transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+        }
+
+        .rail a.active {
+            background: var(--mint);
+            transform: scale(1.15);
+            box-shadow: 0 0 0 8px rgba(31, 229, 143, 0.12);
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: grid;
+            align-items: center;
+            padding: 5.2rem 5.5rem 4.2rem;
+            scroll-snap-align: start;
+        }
+
+        .slide-shell {
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            margin: 0 0 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.28em;
+            font-size: 0.76rem;
+            color: var(--mint);
+        }
+
+        .hero-grid,
+        .split-grid,
+        .triple-grid,
+        .quad-grid,
+        .impact-grid,
+        .roadmap-grid {
+            display: grid;
+            gap: 1.2rem;
+        }
+
+        .hero-grid,
+        .split-grid {
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: center;
+        }
+
+        .triple-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .quad-grid,
+        .impact-grid,
+        .roadmap-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        h1, h2, h3, h4 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            letter-spacing: -0.04em;
+        }
+
+        h1 {
+            font-size: clamp(3.6rem, 8vw, 6.7rem);
+            line-height: 0.92;
+            max-width: 9ch;
+        }
+
+        h2 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            line-height: 0.95;
+            max-width: 13ch;
+        }
+
+        h3 {
+            font-size: 1.18rem;
+        }
+
+        p {
+            color: rgba(238, 248, 244, 0.82);
+            font-size: 1rem;
+            line-height: 1.65;
+            max-width: 68ch;
+        }
+
+        .lede {
+            font-size: 1.18rem;
+            color: rgba(238, 248, 244, 0.9);
+            max-width: 58ch;
+        }
+
+        .hero-copy {
+            max-width: 60ch;
+        }
+
+        .badge-row,
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 1.2rem;
+        }
+
+        .badge,
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.72rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--pearl);
+            font-size: 0.92rem;
+        }
+
+        .badge-live {
+            background: linear-gradient(135deg, rgba(255, 209, 102, 0.22), rgba(31, 229, 143, 0.16));
+            border-color: rgba(255, 209, 102, 0.26);
+        }
+
+        .hero-card,
+        .metric-card,
+        .value-card,
+        .roadmap-card,
+        .approach-card,
+        .tradeoff-card,
+        .stack-card,
+        .pull-quote,
+        .formula-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            backdrop-filter: blur(18px);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-card,
+        .pull-quote,
+        .formula-card {
+            padding: 1.5rem;
+        }
+
+        .metric-card,
+        .value-card,
+        .roadmap-card,
+        .approach-card,
+        .tradeoff-card,
+        .stack-card {
+            padding: 1.2rem;
+        }
+
+        .hero-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            width: 10rem;
+            height: 10rem;
+            right: -2rem;
+            bottom: -2rem;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 209, 102, 0.25), transparent 65%);
+        }
+
+        .metric {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2.2rem, 6vw, 4.4rem);
+            line-height: 1;
+            color: var(--mint);
+        }
+
+        .metric-sub {
+            margin-top: 0.5rem;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .label {
+            margin-bottom: 0.55rem;
+            font-size: 0.76rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--mint);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 1.2rem;
+            margin-top: 1.6rem;
+        }
+
+        .pain-points {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .pain-item {
+            display: flex;
+            gap: 0.95rem;
+            align-items: flex-start;
+            padding: 1rem 1.1rem;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .pain-index {
+            flex: 0 0 2.2rem;
+            width: 2.2rem;
+            height: 2.2rem;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255, 138, 122, 0.28), rgba(255, 209, 102, 0.2));
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+        .macbook-wrap {
+            position: relative;
+            padding: 2.2rem 1.2rem 1.55rem;
+        }
+
+        .macbook-wrap::before {
+            content: "";
+            position: absolute;
+            inset: 0.2rem 0.8rem auto 0.8rem;
+            height: calc(100% - 1rem);
+            border-radius: 30px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015));
+            filter: blur(28px);
+            z-index: 0;
+        }
+
+        .macbook {
+            position: relative;
+            z-index: 1;
+        }
+
+        .macbook-screen {
+            position: relative;
+            padding: 1rem;
+            border-radius: 28px 28px 18px 18px;
+            background: linear-gradient(180deg, #30353d, #161a20 32%, #0a0d12 100%);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+        }
+
+        .camera-dot {
+            position: absolute;
+            top: 0.65rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0.55rem;
+            height: 0.55rem;
+            border-radius: 50%;
+            background: #0c1117;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.03);
+            z-index: 2;
+        }
+
+        .screen-frame {
+            border-radius: 18px;
+            overflow: hidden;
+            background: #06120e;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            aspect-ratio: 16 / 10;
+        }
+
+        .screen-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+        }
+
+        .macbook-base {
+            width: 88%;
+            height: 16px;
+            margin: 0 auto;
+            border-radius: 0 0 24px 24px;
+            background: linear-gradient(180deg, #d8dde1, #aab2bb 50%, #909aa5);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 14px 26px rgba(0, 0, 0, 0.26);
+            position: relative;
+        }
+
+        .macbook-base::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 3px;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(30, 40, 52, 0.28);
+        }
+
+        .live-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            padding: 0.6rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.9rem;
+        }
+
+        .live-note::before {
+            content: "";
+            width: 0.6rem;
+            height: 0.6rem;
+            border-radius: 50%;
+            background: var(--mint);
+            box-shadow: 0 0 0 0 rgba(31, 229, 143, 0.45);
+            animation: pulse 1.9s infinite;
+        }
+
+        .bullet-list {
+            margin: 1rem 0 0;
+            padding-left: 1.1rem;
+            color: rgba(238, 248, 244, 0.86);
+            line-height: 1.7;
+        }
+
+        .bullet-list li + li {
+            margin-top: 0.35rem;
+        }
+
+        .flow-track {
+            display: grid;
+            gap: 0.95rem;
+            margin-top: 1.4rem;
+        }
+
+        .flow-step {
+            position: relative;
+            padding: 1rem 1.1rem 1rem 3.5rem;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .flow-step::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.8rem;
+            height: 1.8rem;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 209, 102, 0.28), rgba(31, 229, 143, 0.22));
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 0.84rem;
+        }
+
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stack-card h3,
+        .tradeoff-card h3,
+        .value-card h3,
+        .roadmap-card h3,
+        .approach-card h3,
+        .metric-card h3 {
+            margin-bottom: 0.55rem;
+        }
+
+        .impact-grid {
+            margin-top: 1.4rem;
+        }
+
+        .value-card .big-number {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 2.4rem;
+            color: var(--mint);
+            margin-bottom: 0.55rem;
+        }
+
+        .formula-card {
+            margin-top: 1.35rem;
+            background: linear-gradient(160deg, rgba(255, 209, 102, 0.1), rgba(31, 229, 143, 0.08));
+        }
+
+        .formula {
+            margin-top: 0.6rem;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1.06rem;
+            color: var(--pearl);
+        }
+
+        .tradeoff-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.4rem;
+        }
+
+        .ask-panel {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .ask-list {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .ask-item {
+            display: flex;
+            gap: 0.85rem;
+            padding: 1rem;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .ask-index {
+            flex: 0 0 2rem;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(31, 229, 143, 0.18);
+            color: var(--mint);
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+        .footer-note {
+            margin-top: 1rem;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(31, 229, 143, 0.45); }
+            70% { box-shadow: 0 0 0 16px rgba(31, 229, 143, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(31, 229, 143, 0); }
+        }
+
+        @media (max-width: 1100px) {
+            .slide {
+                padding: 4rem 1.6rem 3rem;
+            }
+
+            .hero-grid,
+            .split-grid,
+            .problem-grid,
+            .tradeoff-grid,
+            .ask-panel,
+            .triple-grid,
+            .quad-grid,
+            .impact-grid,
+            .roadmap-grid,
+            .stack-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rail {
+                display: none;
+            }
+
+            h1 {
+                max-width: none;
+            }
+        }
+
+        @media print {
+            body {
+                background: #04100c;
+            }
+
+            .progress,
+            .rail {
+                display: none;
+            }
+
+            .slide {
+                min-height: auto;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress"><span id="progress-bar"></span></div>
+    <nav class="rail" id="rail">
+        <a href="#hero" aria-label="Hero"></a>
+        <a href="#problem" aria-label="Problem"></a>
+        <a href="#approach" aria-label="Approach"></a>
+        <a href="#live-dashboard" aria-label="Live Dashboard"></a>
+        <a href="#copilot" aria-label="Copilot"></a>
+        <a href="#operations" aria-label="Operations"></a>
+        <a href="#architecture" aria-label="Architecture"></a>
+        <a href="#roi" aria-label="ROI"></a>
+        <a href="#tradeoffs" aria-label="Trade-offs"></a>
+        <a href="#roadmap" aria-label="Roadmap"></a>
+        <a href="#ask" aria-label="Ask"></a>
+    </nav>
+
+    <main>
+        <section class="slide" id="hero">
+            <div class="slide-shell hero-grid">
+                <div>
+                    <p class="eyebrow">CBRE | INNOVATE 2026 | SLT Narrative</p>
+                    <h1>From Reactive Drag To Predictive Operating Leverage</h1>
+                    <p class="lede hero-copy">Reactive to PM Intelligence transforms maintenance history into ranked PM opportunities, explainable risk, and a cleaner operating rhythm for facilities leadership.</p>
+                    <div class="badge-row">
+                        <span class="badge badge-live">Live application running</span>
+                        <span class="badge">5,000 work orders analyzed</span>
+                        <span class="badge">16 recurring patterns detected</span>
+                    </div>
+                    <div class="formula-card">
+                        <p class="label">Executive Thesis</p>
+                        <h3>Use the data already sitting in CAFM to stop paying twice for the same failure.</h3>
+                        <p class="formula">Historical breakdowns -> recurrence intelligence -> PM conversion -> lower reactive spend + better uptime + stronger tenant trust</p>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <p class="label">Pilot Signal</p>
+                    <div class="metric">50</div>
+                    <div class="metric-sub">facilities modeled for portfolio-level visibility</div>
+                    <div class="metric" style="margin-top:1.2rem">15</div>
+                    <div class="metric-sub">PM schedules auto-generated from live risk output</div>
+                    <div class="metric" style="margin-top:1.2rem">$18,375</div>
+                    <div class="metric-sub">visible savings pool in the current pilot run, before full live-account calibration</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="problem">
+            <div class="slide-shell">
+                <p class="eyebrow">Business Problem</p>
+                <h2>Too Much Of The Maintenance Budget Is Still Paying For Yesterday's Failure Pattern</h2>
+                <div class="problem-grid">
+                    <div class="pain-points">
+                        <div class="pain-item"><div class="pain-index">1</div><div><h3>Repeat failures are operational debt</h3><p>The same assets fail with familiar signatures, but that knowledge stays buried in ticket history instead of surfacing as planned action.</p></div></div>
+                        <div class="pain-item"><div class="pain-index">2</div><div><h3>Reactive response destroys leverage</h3><p>Technicians burn time on urgent repeat work, planners stay trapped in backlog triage, and account teams lose visibility into what is actually preventable.</p></div></div>
+                        <div class="pain-item"><div class="pain-index">3</div><div><h3>Leadership sees cost, not pattern intelligence</h3><p>Without explainable recurrence scoring, it is difficult to justify where to intervene first, what to automate, and how to quantify the value case.</p></div></div>
+                    </div>
+                    <div class="triple-grid">
+                        <div class="metric-card">
+                            <p class="label">Cost Pressure</p>
+                            <h3>Reactive work consumes margin</h3>
+                            <p>Emergency labor, repeat dispatches, and visible downtime all compound account pressure.</p>
+                        </div>
+                        <div class="metric-card">
+                            <p class="label">Service Pressure</p>
+                            <h3>Tenant-facing systems are exposed</h3>
+                            <p>HVAC, electrical, plumbing, and lift issues are exactly where repeat failure is most painful.</p>
+                        </div>
+                        <div class="metric-card">
+                            <p class="label">Decision Pressure</p>
+                            <h3>Planners need a ranked backlog</h3>
+                            <p>Without prioritization, PM remains calendar-driven instead of intelligence-driven.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="approach">
+            <div class="slide-shell split-grid">
+                <div>
+                    <p class="eyebrow">Approach Used</p>
+                    <h2>We Built A Low-Regret Intelligence Layer, Not A Rip-And-Replace Story</h2>
+                    <p class="lede">The solution overlays existing work-order history, detects repeat-failure signatures, scores recurrence, and converts high-risk patterns into PM action with explainable context.</p>
+                    <div class="flow-track">
+                        <div class="flow-step" data-step="1">Normalize and ingest work-order history into a pilot-ready operational store.</div>
+                        <div class="flow-step" data-step="2">Group by asset, location, and problem code to isolate recurring signatures.</div>
+                        <div class="flow-step" data-step="3">Score interval regularity and recurrence probability for each pattern.</div>
+                        <div class="flow-step" data-step="4">Auto-generate PM schedules for the patterns most likely to recur.</div>
+                        <div class="flow-step" data-step="5">Expose the results in a live dashboard, assistant, and executive deck.</div>
+                    </div>
+                </div>
+                <div class="triple-grid">
+                    <div class="approach-card">
+                        <p class="label">Detection</p>
+                        <h3>Regularity Score</h3>
+                        <p>Repeatability is quantified using interval behavior rather than intuition alone.</p>
+                    </div>
+                    <div class="approach-card">
+                        <p class="label">Prediction</p>
+                        <h3>30 / 60 / 90 Day Risk</h3>
+                        <p>Random Forest scoring surfaces what is likely to fail again soon.</p>
+                    </div>
+                    <div class="approach-card">
+                        <p class="label">Action</p>
+                        <h3>One-Click PM Conversion</h3>
+                        <p>The system converts high-risk patterns into planning-ready PM schedules.</p>
+                    </div>
+                    <div class="pull-quote" style="grid-column: 1 / -1;">
+                        <p class="label">Strategic Positioning</p>
+                        <h3>This is a capital-light transformation move: mine more value from existing CAFM history before expanding platform complexity.</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="live-dashboard">
+            <div class="slide-shell split-grid">
+                <div>
+                    <div class="live-note">Live application screenshot embedded from the running dashboard</div>
+                    <p class="eyebrow">Live Product View</p>
+                    <h2>The Portfolio Command Layer Is Already Working End To End</h2>
+                    <ul class="bullet-list">
+                        <li>Portfolio scale, hotspot facility, and most exposed asset are visible immediately after generation.</li>
+                        <li>The dashboard exposes the exact bridge SLT needs: from operational signal to financial and planning implication.</li>
+                        <li>Nothing is auto-generated on page load, which keeps the story intentional, controlled, and demo-safe.</li>
+                    </ul>
+                </div>
+                <div class="macbook-wrap">
+                    <div class="macbook">
+                        <div class="macbook-screen">
+                            <div class="camera-dot"></div>
+                            <div class="screen-frame">
+                                <img src="./assets/screenshots/dashboard-overview-viewport.png" alt="Live dashboard overview screenshot">
+                            </div>
+                        </div>
+                        <div class="macbook-base"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="copilot">
+            <div class="slide-shell split-grid">
+                <div class="macbook-wrap">
+                    <div class="macbook">
+                        <div class="macbook-screen">
+                            <div class="camera-dot"></div>
+                            <div class="screen-frame">
+                                <img src="./assets/screenshots/dashboard-assistant-viewport.png" alt="Live PM Copilot screenshot">
+                            </div>
+                        </div>
+                        <div class="macbook-base"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="live-note">Live PM Copilot state with contextual response</div>
+                    <p class="eyebrow">Executive Copilot</p>
+                    <h2>Leadership Questions Can Be Answered In The Language Of Risk, Savings, And Next Action</h2>
+                    <ul class="bullet-list">
+                        <li>The assistant is grounded in live portfolio context, not generic model chatter.</li>
+                        <li>Quick actions keep the flow executive-friendly: launch brief, top risk assets, PM opportunities, occupant impact.</li>
+                        <li>Provider abstraction supports deterministic demo mode today and live Gemini, Mistral, or OpenAI integration when required.</li>
+                    </ul>
+                    <div class="tag-row">
+                        <span class="tag">Targeted quick actions</span>
+                        <span class="tag">Adaptive follow-up chiplets</span>
+                        <span class="tag">Deterministic fallback</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="operations">
+            <div class="slide-shell split-grid">
+                <div>
+                    <div class="live-note">Live risk and PM conversion evidence</div>
+                    <p class="eyebrow">Operational Proof</p>
+                    <h2>Risk Prioritization And PM Automation Sit Side By Side</h2>
+                    <ul class="bullet-list">
+                        <li>The same screen shows top predicted failure risk and the PM schedules generated from that insight.</li>
+                        <li>This closes the value loop from analytics to action, which is where many pilot concepts fail.</li>
+                        <li>The UI is already structured to support planner decisioning, not just executive show-and-tell.</li>
+                    </ul>
+                </div>
+                <div class="macbook-wrap">
+                    <div class="macbook">
+                        <div class="macbook-screen">
+                            <div class="camera-dot"></div>
+                            <div class="screen-frame">
+                                <img src="./assets/screenshots/dashboard-operations-viewport.png" alt="Live operations screenshot showing predicted risk and generated PM schedules">
+                            </div>
+                        </div>
+                        <div class="macbook-base"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="architecture">
+            <div class="slide-shell">
+                <p class="eyebrow">Architecture</p>
+                <h2>Modular By Design, Scalable By Intention</h2>
+                <div class="stack-grid">
+                    <div class="stack-card"><p class="label">Source</p><h3>CAFM-like work orders</h3><p>CSV, exports, or service feeds act as the operational source of truth.</p></div>
+                    <div class="stack-card"><p class="label">Core Data</p><h3>SQLite pilot store</h3><p>Facilities, assets, technicians, work orders, patterns, predictions, and PM schedules.</p></div>
+                    <div class="stack-card"><p class="label">Analytics</p><h3>Pattern + prediction engines</h3><p>Regularity scoring, Random Forest risk, and explainable recurrence output.</p></div>
+                    <div class="stack-card"><p class="label">Action</p><h3>PM generator</h3><p>Converts high-risk patterns into planning-ready schedules with due date and skill context.</p></div>
+                    <div class="stack-card"><p class="label">Experience</p><h3>FastAPI + dashboard + deck</h3><p>Operational API surface, live dashboard, PM Copilot, and executive narrative assets.</p></div>
+                </div>
+                <div class="impact-grid">
+                    <div class="value-card"><p class="label">API Layer</p><h3>Protected routes</h3><p>Auth, pipeline run, KPI, portfolio, assistant, PM schedules, and health endpoints.</p></div>
+                    <div class="value-card"><p class="label">Control Layer</p><h3>Rate limit + validation</h3><p>Pydantic request contracts, token auth, and pilot-safe throttling controls.</p></div>
+                    <div class="value-card"><p class="label">Ops Layer</p><h3>Startup + scheduler</h3><p>Automatic sample ingestion and repeatable analytics orchestration.</p></div>
+                    <div class="value-card"><p class="label">Migration Path</p><h3>SQLite to PostgreSQL</h3><p>The current stack is intentionally easy to harden without rewriting the business logic.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="roi">
+            <div class="slide-shell">
+                <p class="eyebrow">ROI And Business Benefit</p>
+                <h2>The Value Case Is Not Just Technical. It Is Commercially Legible.</h2>
+                <div class="impact-grid">
+                    <div class="value-card"><div class="big-number">35%</div><h3>Target reactive reduction</h3><p>Used in the pilot cost-savings framing and aligned to PM conversion opportunity.</p></div>
+                    <div class="value-card"><div class="big-number">40%</div><h3>Technician leverage upside</h3><p>More planned work means less time consumed by familiar emergency loops.</p></div>
+                    <div class="value-card"><div class="big-number">15</div><h3>PM actions created now</h3><p>The current run already produces a prioritized intervention list instead of a theoretical model output.</p></div>
+                    <div class="value-card"><div class="big-number">6-Figure</div><h3>Scale-ready savings pathway</h3><p>Once calibrated with live-account economics, the same pattern can support materially larger portfolio savings.</p></div>
+                </div>
+                <div class="formula-card">
+                    <p class="label">Value Logic</p>
+                    <h3>Every recurring failure converted into planned work can remove a future emergency event, protect uptime, and release specialist capacity back into higher-value tasks.</h3>
+                    <p class="formula">Avoided repeat failure x emergency cost delta x conversion success rate -> savings pool + service stability + planner confidence</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="tradeoffs">
+            <div class="slide-shell">
+                <p class="eyebrow">Trade-Offs</p>
+                <h2>Built For Fast Business Proof First, With A Clear Production Hardening Path</h2>
+                <div class="tradeoff-grid">
+                    <div class="tradeoff-card">
+                        <p class="label">Why This Is Strong Now</p>
+                        <h3>Speed, clarity, and end-to-end credibility</h3>
+                        <ul class="bullet-list">
+                            <li>Live application already runs from data generation through PM output.</li>
+                            <li>Assistant, dashboard, and deck tell one consistent operational story.</li>
+                            <li>The architecture is modular enough to scale without a re-platforming reset.</li>
+                        </ul>
+                    </div>
+                    <div class="tradeoff-card">
+                        <p class="label">What Still Needs Enterprise Hardening</p>
+                        <h3>Governance and operating controls</h3>
+                        <ul class="bullet-list">
+                            <li>SQLite should move to PostgreSQL for concurrent enterprise workloads.</li>
+                            <li>Model labels should transition from heuristic to outcome-derived learning.</li>
+                            <li>PM publication should add approval workflow, audit lineage, and model version controls.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="roadmap">
+            <div class="slide-shell">
+                <p class="eyebrow">Roadmap</p>
+                <h2>Pilot First. Production Fast. Scale With Governance.</h2>
+                <div class="roadmap-grid">
+                    <div class="roadmap-card"><p class="label">Phase 1</p><h3>Pilot validation</h3><p>Map one live account, validate hotspot precision with SMEs, and quantify PM conversion value.</p></div>
+                    <div class="roadmap-card"><p class="label">Phase 2</p><h3>Production foundation</h3><p>Introduce PostgreSQL, stronger secrets handling, monitoring, and live CAFM connectivity.</p></div>
+                    <div class="roadmap-card"><p class="label">Phase 3</p><h3>Multi-site scaling</h3><p>Add worker jobs, caching, multi-tenant patterns, and safer concurrent portfolio use.</p></div>
+                    <div class="roadmap-card"><p class="label">Phase 4</p><h3>Closed-loop intelligence</h3><p>Use PM outcomes, IoT, and BMS signals to continuously improve recurrence scoring and action quality.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="ask">
+            <div class="slide-shell">
+                <p class="eyebrow">Recommended Ask</p>
+                <h2>Approve The Next Step Before The Same Failure Patterns Consume Another Quarter</h2>
+                <div class="ask-panel">
+                    <div class="ask-list">
+                        <div class="ask-item"><div class="ask-index">1</div><div><h3>Expand into a live-account pilot</h3><p>Use one production-like account to validate recurrence precision, PM conversion yield, and stakeholder trust.</p></div></div>
+                        <div class="ask-item"><div class="ask-index">2</div><div><h3>Fund enterprise hardening</h3><p>Shift persistence, observability, and workflow governance from pilot-grade to production-safe controls.</p></div></div>
+                        <div class="ask-item"><div class="ask-index">3</div><div><h3>Connect to live CAFM interfaces</h3><p>Turn the current one-click PM output into a governed downstream operating workflow.</p></div></div>
+                    </div>
+                    <div class="pull-quote">
+                        <p class="label">Final Message</p>
+                        <h3>This is a practical AI story with operating substance: the product already proves that maintenance history can be converted into explainable, prioritized, and action-ready PM intelligence.</h3>
+                        <p class="footer-note">Reactive to PM Intelligence | SMART PM CONFIGURERS | Built for SLT conversation, pilot activation, and production scale-up.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const sections = Array.from(document.querySelectorAll('.slide'));
+        const dots = Array.from(document.querySelectorAll('.rail a'));
+        const progressBar = document.getElementById('progress-bar');
+
+        const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+
+            if (!visible) {
+                return;
+            }
+
+            const index = sections.findIndex((section) => section.id === visible.target.id);
+            dots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === index));
+            progressBar.style.width = `${((index + 1) / sections.length) * 100}%`;
+        }, { threshold: [0.45, 0.7] });
+
+        sections.forEach((section) => observer.observe(section));
+
+        document.addEventListener('keydown', (event) => {
+            const currentIndex = dots.findIndex((dot) => dot.classList.contains('active'));
+            if (event.key === 'ArrowDown' || event.key === 'PageDown') {
+                const next = sections[Math.min(sections.length - 1, currentIndex + 1)];
+                next?.scrollIntoView({ behavior: 'smooth' });
+            }
+            if (event.key === 'ArrowUp' || event.key === 'PageUp') {
+                const previous = sections[Math.max(0, currentIndex - 1)];
+                previous?.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        dots[0]?.classList.add('active');
+        progressBar.style.width = `${100 / sections.length}%`;
+    </script>
+</body>
+</html>

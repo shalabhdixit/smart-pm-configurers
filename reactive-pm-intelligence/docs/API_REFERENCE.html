@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactive to PM Intelligence | API Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #06150f;
+            --panel: rgba(8, 31, 23, 0.8);
+            --panel-strong: rgba(8, 36, 27, 0.94);
+            --line: rgba(105, 255, 207, 0.15);
+            --mint: #5ff5bb;
+            --gold: #ffd166;
+            --text: #eef8f4;
+            --muted: #9fb7ae;
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(95, 245, 187, 0.16), transparent 24%),
+                radial-gradient(circle at bottom right, rgba(255, 209, 102, 0.12), transparent 20%),
+                linear-gradient(145deg, #03100b 0%, #06150f 42%, #0c231b 100%);
+        }
+        .page {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+        }
+        .hero, .card, .route, .endpoint, .schema, .cta {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+        }
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 1.2rem;
+            padding: 1.5rem;
+        }
+        .eyebrow {
+            margin: 0 0 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.24em;
+            color: var(--mint);
+            font-size: 0.78rem;
+        }
+        h1, h2, h3 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            letter-spacing: -0.03em;
+        }
+        h1 { font-size: clamp(2.6rem, 6vw, 4.8rem); line-height: 0.95; }
+        h2 { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 0.9rem; }
+        h3 { font-size: 1.08rem; }
+        p { color: rgba(238, 248, 244, 0.86); line-height: 1.65; }
+        .pill-row, .tag-row { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1rem; }
+        .pill, .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.62rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text);
+        }
+        .hero-side {
+            display: grid;
+            gap: 1rem;
+        }
+        .card {
+            padding: 1.15rem;
+        }
+        .number {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 2.5rem;
+            color: var(--mint);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+        .grid-two, .grid-three {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+        .grid-two { grid-template-columns: 0.95fr 1.05fr; }
+        .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .route {
+            padding: 1rem 1.1rem;
+        }
+        .method {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 72px;
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.84rem;
+            margin-right: 0.75rem;
+            color: #062018;
+            background: linear-gradient(135deg, var(--gold), var(--mint));
+        }
+        .path {
+            font-family: Consolas, monospace;
+            font-size: 1rem;
+            color: var(--text);
+        }
+        .route-head {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-bottom: 0.8rem;
+        }
+        .route p { margin: 0; }
+        .endpoint, .schema, .cta {
+            padding: 1.2rem;
+        }
+        .list {
+            margin: 0.8rem 0 0;
+            padding-left: 1rem;
+            color: rgba(238, 248, 244, 0.88);
+            line-height: 1.7;
+        }
+        .code {
+            margin-top: 0.85rem;
+            padding: 1rem;
+            border-radius: 18px;
+            background: rgba(0, 0, 0, 0.22);
+            border: 1px solid rgba(255,255,255,0.05);
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            color: #d8fff0;
+        }
+        .cta a {
+            color: var(--text);
+        }
+        @media (max-width: 980px) {
+            .hero, .grid-two, .grid-three {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">OpenAPI 3.0 | Premium HTML API Documentation</p>
+                <h1>Reactive to PM Intelligence API</h1>
+                <p>This API package is built to bridge raw maintenance history and executive-grade action. It exposes recurring-pattern intelligence, recurrence risk, PM automation, live portfolio rollups, and the PM Copilot interaction layer in one coherent contract.</p>
+                <div class="pill-row">
+                    <span class="pill">OpenAPI 3.0.3</span>
+                    <span class="pill">YAML contract available</span>
+                    <span class="pill">Token-protected pilot routes</span>
+                </div>
+            </div>
+            <div class="hero-side">
+                <div class="card">
+                    <p class="eyebrow">Base URL</p>
+                    <div class="code">http://127.0.0.1:8000/api/v1</div>
+                </div>
+                <div class="card">
+                    <p class="eyebrow">Contract Asset</p>
+                    <p>The formal YAML contract is published in <strong>openapi.yaml</strong> for design review, tooling, and future gateway integration.</p>
+                    <div class="code">docs/openapi.yaml</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-three">
+            <article class="card"><p class="eyebrow">Auth</p><div class="number">1</div><p>One token retrieval endpoint bootstraps the full protected API surface for pilot mode.</p></article>
+            <article class="card"><p class="eyebrow">Core Domains</p><div class="number">9</div><p>Auth, ingestion, patterns, predictions, PM, dashboard, portfolio, assistant, and ops domains are exposed cleanly.</p></article>
+            <article class="card"><p class="eyebrow">Operating Promise</p><div class="number">E2E</div><p>From raw work orders to PM action, the contract preserves the full execution path instead of exposing isolated analytics artifacts.</p></article>
+        </section>
+
+        <section class="grid-two">
+            <div class="endpoint">
+                <p class="eyebrow">Authentication Model</p>
+                <h2>Secure Enough For Pilot, Structured For Enterprise Progression</h2>
+                <ul class="list">
+                    <li>`POST /auth/token` returns the pilot bearer token.</li>
+                    <li>Protected routes require `Authorization: Bearer &lt;token&gt;`.</li>
+                    <li>Health, metrics, and mock integration endpoints remain open for operational visibility.</li>
+                    <li>The OpenAPI contract already models `bearerAuth` so the path to enterprise identity is clean.</li>
+                </ul>
+            </div>
+            <div class="schema">
+                <p class="eyebrow">Primary Schema Families</p>
+                <ul class="list">
+                    <li>Request schemas: `IngestRequest`, `AssistantRequest`.</li>
+                    <li>Analytics schemas: `PatternResponse`, `PredictionResponse`, `PMScheduleResponse`.</li>
+                    <li>Executive schemas: `KPIResponse`, `PortfolioOverviewResponse`, `AssistantResponse`.</li>
+                    <li>Operational schemas: `HealthResponse`, `PipelineRunResponse`, `CountsResponse`.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="grid-three">
+            <article class="route">
+                <div class="route-head"><span class="method">POST</span><span class="path">/auth/token</span></div>
+                <p>Issues the pilot bearer token used across protected routes.</p>
+            </article>
+            <article class="route">
+                <div class="route-head"><span class="method">POST</span><span class="path">/pipeline/run</span></div>
+                <p>Rebuilds recurring patterns, predictions, and PM schedules from current history.</p>
+            </article>
+            <article class="route">
+                <div class="route-head"><span class="method">GET</span><span class="path">/portfolio/overview</span></div>
+                <p>Returns portfolio scale, hotspot facilities, and at-risk assets for leadership and planners.</p>
+            </article>
+            <article class="route">
+                <div class="route-head"><span class="method">GET</span><span class="path">/dashboard/kpis</span></div>
+                <p>Returns the KPI payload already shaped for the live dashboard.</p>
+            </article>
+            <article class="route">
+                <div class="route-head"><span class="method">POST</span><span class="path">/assistant/chat</span></div>
+                <p>Exposes the PM Copilot interface using live portfolio context and mock or LLM-backed response generation.</p>
+            </article>
+            <article class="route">
+                <div class="route-head"><span class="method">POST</span><span class="path">/pm/generate</span></div>
+                <p>Converts high-risk recurrence predictions into PM schedules ready for downstream operational action.</p>
+            </article>
+        </section>
+
+        <section class="endpoint">
+            <p class="eyebrow">Why This API Is Executive-Relevant</p>
+            <h2>The Contract Is Not Just Technical. It Encodes The Operating Model.</h2>
+            <ul class="list">
+                <li>Raw maintenance history becomes recurring-pattern intelligence.</li>
+                <li>Recurring-pattern intelligence becomes predicted risk.</li>
+                <li>Predicted risk becomes PM schedules and leadership-ready insight.</li>
+                <li>The assistant contract turns operational data into boardroom-ready narrative.</li>
+            </ul>
+        </section>
+
+        <section class="cta">
+            <p class="eyebrow">Reference Assets</p>
+            <h2>API Deliverables</h2>
+            <div class="tag-row">
+                <span class="tag">YAML Contract: <a href="./openapi.yaml">openapi.yaml</a></span>
+                <span class="tag">Markdown Reference: <a href="./API_REFERENCE.md">API_REFERENCE.md</a></span>
+                <span class="tag">Architecture: <a href="./ARCHITECTURE.md">ARCHITECTURE.md</a></span>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

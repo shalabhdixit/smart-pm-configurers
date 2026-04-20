@@ -1,0 +1,788 @@
+openapi: 3.0.3
+info:
+  title: Reactive to PM Intelligence API
+  version: 1.0.0
+  description: |
+    OpenAPI 3.0 contract for the Reactive to PM Intelligence platform.
+
+    The API converts reactive maintenance history into recurring-pattern intelligence,
+    recurrence risk, PM schedule recommendations, portfolio rollups, and contextual
+    PM Copilot responses for leadership and planning workflows.
+  contact:
+    name: SMART PM CONFIGURERS
+servers:
+  - url: http://127.0.0.1:8000/api/v1
+    description: Local development server
+tags:
+  - name: auth
+    description: Demo authentication and token retrieval
+  - name: ingestion
+    description: Work-order ingestion and raw work-order access
+  - name: patterns
+    description: Recurring-pattern analytics endpoints
+  - name: predictions
+    description: Recurrence prediction endpoints
+  - name: pm
+    description: PM generation and PM schedule retrieval
+  - name: dashboard
+    description: KPI endpoints optimized for the dashboard experience
+  - name: portfolio
+    description: Portfolio rollups for facilities and at-risk assets
+  - name: assistant
+    description: PM Copilot interaction endpoints
+  - name: ops
+    description: Health, metrics, and pipeline orchestration
+  - name: integration
+    description: Mock external integration endpoints
+security:
+  - bearerAuth: []
+paths:
+  /auth/token:
+    post:
+      tags: [auth]
+      summary: Fetch demo bearer token
+      description: Returns the demo token used for protected routes in pilot mode.
+      security: []
+      responses:
+        '200':
+          description: Demo bearer token returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+              example:
+                access_token: innovate2026-demo-token
+                token_type: bearer
+  /ingest:
+    post:
+      tags: [ingestion]
+      summary: Ingest work orders
+      description: Ingests a batch of reactive work orders into the pilot operational store.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestRequest'
+      responses:
+        '200':
+          description: Work orders ingested successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /patterns:
+    get:
+      tags: [patterns]
+      summary: List recurring patterns
+      description: Returns all detected recurring patterns ordered by highest regularity score.
+      responses:
+        '200':
+          description: Recurring patterns returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PatternResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /patterns/{pattern_id}:
+    get:
+      tags: [patterns]
+      summary: Get one recurring pattern
+      description: Returns a single recurring-pattern record by identifier.
+      parameters:
+        - in: path
+          name: pattern_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Pattern returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatternResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Pattern not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                detail: Pattern not found
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /predictions:
+    get:
+      tags: [predictions]
+      summary: List recurrence predictions
+      description: Returns recurrence predictions and explanation payloads for all current patterns.
+      responses:
+        '200':
+          description: Predictions returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PredictionResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /pm/generate:
+    post:
+      tags: [pm]
+      summary: Generate PM schedules
+      description: Creates PM schedules for patterns whose recurrence risk exceeds the configured threshold.
+      responses:
+        '200':
+          description: PM schedules generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratePMResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /pm/schedules:
+    get:
+      tags: [pm]
+      summary: List PM schedules
+      description: Returns generated PM schedules ordered by newest first.
+      responses:
+        '200':
+          description: PM schedules returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PMScheduleResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /dashboard/kpis:
+    get:
+      tags: [dashboard]
+      summary: Get dashboard KPIs
+      description: Returns dashboard KPI cards shaped for the live UI.
+      responses:
+        '200':
+          description: Dashboard KPIs returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KPIResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /health:
+    get:
+      tags: [ops]
+      summary: Health check
+      description: Returns platform health and key row counts.
+      security: []
+      responses:
+        '200':
+          description: Health payload returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /metrics:
+    get:
+      tags: [ops]
+      summary: Get raw metrics counts
+      description: Returns raw row counts by domain table.
+      security: []
+      responses:
+        '200':
+          description: Raw metrics returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountsResponse'
+  /pipeline/run:
+    post:
+      tags: [ops]
+      summary: Run full analytics pipeline
+      description: Rebuilds patterns, predictions, and PM schedules from current work-order history.
+      responses:
+        '200':
+          description: Pipeline completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineRunResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /mock/cafm:
+    get:
+      tags: [integration]
+      summary: Mock CAFM readiness endpoint
+      description: Returns a simple readiness response for mock downstream integration.
+      security: []
+      responses:
+        '200':
+          description: Mock endpoint available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockCafmResponse'
+  /work-orders:
+    get:
+      tags: [ingestion]
+      summary: List recent work orders
+      description: Returns the most recent 100 work orders for dashboard activity feeds.
+      responses:
+        '200':
+          description: Recent work orders returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkOrderListItem'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /portfolio/overview:
+    get:
+      tags: [portfolio]
+      summary: Get portfolio overview
+      description: Returns portfolio scale, top facilities, and at-risk assets for executive and operational views.
+      responses:
+        '200':
+          description: Portfolio overview returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioOverviewResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+  /assistant/chat:
+    post:
+      tags: [assistant]
+      summary: Query PM Copilot
+      description: Returns a portfolio-aware assistant response in mock or live LLM mode.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssistantRequest'
+      responses:
+        '200':
+          description: Assistant response returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssistantResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Invalid or missing bearer token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            detail: Invalid or missing bearer token
+    ValidationError:
+      description: Request payload validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrorResponse'
+    RateLimitError:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            detail: Rate limit exceeded
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+      required: [detail]
+    ValidationErrorItem:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+        msg:
+          type: string
+        type:
+          type: string
+      required: [loc, msg, type]
+    ValidationErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorItem'
+      required: [detail]
+    WorkOrderIn:
+      type: object
+      properties:
+        work_order_id:
+          type: string
+        asset_id:
+          type: string
+        location_id:
+          type: string
+        problem_code:
+          type: string
+        problem_description:
+          type: string
+        created_date:
+          type: string
+          format: date-time
+        closed_date:
+          type: string
+          format: date-time
+          nullable: true
+        technician_id:
+          type: string
+          nullable: true
+        priority:
+          type: string
+          default: Medium
+        cost:
+          type: number
+          format: float
+          default: 0
+        resolution_code:
+          type: string
+          nullable: true
+        asset_category:
+          type: string
+          nullable: true
+        asset_age_category:
+          type: string
+          nullable: true
+        resolution_hours:
+          type: number
+          format: float
+          default: 0
+        season_flag:
+          type: string
+          nullable: true
+      required:
+        - work_order_id
+        - asset_id
+        - location_id
+        - problem_code
+        - problem_description
+        - created_date
+    IngestRequest:
+      type: object
+      properties:
+        work_orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkOrderIn'
+      required: [work_orders]
+    IngestResponse:
+      type: object
+      properties:
+        ingested:
+          type: integer
+        deduplicated:
+          type: integer
+        total_records:
+          type: integer
+      required: [ingested, deduplicated, total_records]
+    PatternResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        pattern_key:
+          type: string
+        asset_id:
+          type: string
+        location_id:
+          type: string
+        problem_code:
+          type: string
+        occurrence_count:
+          type: integer
+        avg_interval_days:
+          type: number
+          format: float
+        std_interval_days:
+          type: number
+          format: float
+        coefficient_of_variation:
+          type: number
+          format: float
+        regularity_score:
+          type: number
+          format: float
+        last_occurrence_date:
+          type: string
+          format: date
+        avg_resolution_hours:
+          type: number
+          format: float
+        avg_cost:
+          type: number
+          format: float
+        priority_mode:
+          type: string
+        asset_category:
+          type: string
+        asset_age_category:
+          type: string
+        season_mode:
+          type: string
+        assigned_skill_set:
+          type: string
+        timeline:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - pattern_key
+        - asset_id
+        - location_id
+        - problem_code
+        - occurrence_count
+        - avg_interval_days
+        - std_interval_days
+        - coefficient_of_variation
+        - regularity_score
+        - last_occurrence_date
+        - avg_resolution_hours
+        - avg_cost
+        - priority_mode
+        - asset_category
+        - asset_age_category
+        - season_mode
+        - assigned_skill_set
+        - timeline
+    PredictionExplanation:
+      type: object
+      additionalProperties:
+        type: number
+        format: float
+    PredictionResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        pattern_key:
+          type: string
+        recurrence_probability_30d:
+          type: number
+          format: float
+        recurrence_probability_60d:
+          type: number
+          format: float
+        recurrence_probability_90d:
+          type: number
+          format: float
+        confidence_low:
+          type: number
+          format: float
+        confidence_high:
+          type: number
+          format: float
+        explanation:
+          $ref: '#/components/schemas/PredictionExplanation'
+      required:
+        - id
+        - pattern_key
+        - recurrence_probability_30d
+        - recurrence_probability_60d
+        - recurrence_probability_90d
+        - confidence_low
+        - confidence_high
+        - explanation
+    SourcePayload:
+      type: object
+      additionalProperties: true
+    PMScheduleResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        pattern_key:
+          type: string
+        pm_title:
+          type: string
+        frequency:
+          type: string
+        next_due_date:
+          type: string
+          format: date
+        priority:
+          type: string
+        estimated_duration:
+          type: number
+          format: float
+        assigned_skill_set:
+          type: string
+        source_payload:
+          $ref: '#/components/schemas/SourcePayload'
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - pattern_key
+        - pm_title
+        - frequency
+        - next_due_date
+        - priority
+        - estimated_duration
+        - assigned_skill_set
+        - source_payload
+        - created_at
+    KPIResponse:
+      type: object
+      properties:
+        total_work_orders:
+          type: integer
+        recurring_patterns:
+          type: integer
+        generated_pm_schedules:
+          type: integer
+        estimated_cost_savings:
+          type: number
+          format: float
+        predictions_next_30_days:
+          type: integer
+        top_pattern_key:
+          type: string
+          nullable: true
+      required:
+        - total_work_orders
+        - recurring_patterns
+        - generated_pm_schedules
+        - estimated_cost_savings
+        - predictions_next_30_days
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        database:
+          type: string
+        metrics:
+          $ref: '#/components/schemas/CountsResponse'
+      required: [status, database, metrics]
+    CountsResponse:
+      type: object
+      additionalProperties:
+        type: integer
+    GeneratePMResponse:
+      type: object
+      properties:
+        generated_count:
+          type: integer
+        schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/PMScheduleResponse'
+      required: [generated_count, schedules]
+    AuthTokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+      required: [access_token, token_type]
+    AssistantAction:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        prompt:
+          type: string
+      required: [id, label, prompt]
+    AssistantRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          default: ''
+        action:
+          type: string
+          nullable: true
+      required: [message]
+    AssistantResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        provider:
+          type: string
+        model:
+          type: string
+        quick_actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssistantAction'
+      required: [message, provider, model, quick_actions]
+    FacilitySummary:
+      type: object
+      properties:
+        location_id:
+          type: string
+        facility_name:
+          type: string
+        city:
+          type: string
+        property_type:
+          type: string
+        reactive_work_orders:
+          type: integer
+        high_risk_patterns:
+          type: integer
+        open_pm_candidates:
+          type: integer
+      required:
+        - location_id
+        - facility_name
+        - city
+        - property_type
+        - reactive_work_orders
+        - high_risk_patterns
+        - open_pm_candidates
+    AssetSummary:
+      type: object
+      properties:
+        asset_id:
+          type: string
+        asset_name:
+          type: string
+        location_id:
+          type: string
+        asset_category:
+          type: string
+        health_index:
+          type: number
+          format: float
+        recurrence_probability_90d:
+          type: number
+          format: float
+        recommended_action:
+          type: string
+      required:
+        - asset_id
+        - asset_name
+        - location_id
+        - asset_category
+        - health_index
+        - recurrence_probability_90d
+        - recommended_action
+    PortfolioOverviewResponse:
+      type: object
+      properties:
+        facilities:
+          type: integer
+        assets:
+          type: integer
+        technicians:
+          type: integer
+        work_orders:
+          type: integer
+        top_facilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacilitySummary'
+        at_risk_assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetSummary'
+      required:
+        - facilities
+        - assets
+        - technicians
+        - work_orders
+        - top_facilities
+        - at_risk_assets
+    WorkOrderListItem:
+      type: object
+      properties:
+        work_order_id:
+          type: string
+        asset_id:
+          type: string
+        problem_code:
+          type: string
+        created_date:
+          type: string
+          format: date-time
+        priority:
+          type: string
+        cost:
+          type: number
+          format: float
+      required: [work_order_id, asset_id, problem_code, created_date, priority, cost]
+    PipelineRunResponse:
+      type: object
+      properties:
+        patterns:
+          type: integer
+        predictions:
+          type: integer
+        schedules:
+          type: integer
+      required: [patterns, predictions, schedules]
+    MockCafmResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      required: [status, message]

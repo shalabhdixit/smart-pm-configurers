@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactive to PM Intelligence | Application Overview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#06150f; --panel:rgba(8,31,23,.82); --line:rgba(98,247,190,.14); --mint:#62f7be; --gold:#ffd166; --text:#eef8f4; --muted:#9eb6ad; --shadow:0 24px 60px rgba(0,0,0,.35); }
+        * { box-sizing:border-box; }
+        body { margin:0; font-family:"DM Sans",sans-serif; color:var(--text); background:radial-gradient(circle at top left, rgba(98,247,190,.14), transparent 24%), radial-gradient(circle at bottom right, rgba(255,209,102,.12), transparent 20%), linear-gradient(145deg,#03100b 0%,#06150f 42%,#0c231b 100%); }
+        .page { max-width:1320px; margin:0 auto; padding:3rem 1.5rem 4rem; }
+        .hero,.card,.panel { background:var(--panel); border:1px solid var(--line); border-radius:28px; box-shadow:var(--shadow); backdrop-filter:blur(16px); }
+        .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:1.2rem; padding:1.5rem; }
+        .eyebrow { margin:0 0 .8rem; text-transform:uppercase; letter-spacing:.24em; color:var(--mint); font-size:.78rem; }
+        h1,h2,h3 { margin:0; font-family:"Space Grotesk",sans-serif; letter-spacing:-.03em; }
+        h1 { font-size:clamp(2.8rem,6vw,5.2rem); line-height:.94; }
+        h2 { font-size:clamp(1.9rem,4vw,3.2rem); margin-bottom:.9rem; }
+        h3 { font-size:1.08rem; }
+        p { color:rgba(238,248,244,.86); line-height:1.68; }
+        .pill-row,.tag-row { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1rem; }
+        .pill,.tag { display:inline-flex; align-items:center; padding:.62rem .9rem; border-radius:999px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); }
+        .grid-three,.grid-four,.grid-two { display:grid; gap:1rem; margin-top:1.25rem; }
+        .grid-two { grid-template-columns:repeat(2,minmax(0,1fr)); }
+        .grid-three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+        .grid-four { grid-template-columns:repeat(4,minmax(0,1fr)); }
+        .card,.panel { padding:1.15rem; }
+        .number { font-family:"Space Grotesk",sans-serif; font-size:2.5rem; color:var(--mint); margin-bottom:.45rem; }
+        .list { margin:.8rem 0 0; padding-left:1rem; line-height:1.7; }
+        @media (max-width:980px){ .hero,.grid-two,.grid-three,.grid-four{ grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">Application Overview | Executive And Product Framing</p>
+                <h1>Reactive To PM Intelligence</h1>
+                <p>This application transforms historical reactive work orders into a full decision layer: recurring-pattern visibility, predictive failure risk, PM schedule recommendations, and a leadership-ready operating narrative through the dashboard and PM Copilot.</p>
+                <div class="pill-row">
+                    <span class="pill">Live dashboard</span>
+                    <span class="pill">PM Copilot</span>
+                    <span class="pill">PM automation</span>
+                </div>
+            </div>
+            <div class="panel">
+                <p class="eyebrow">What Makes It Different</p>
+                <div class="number">E2E</div>
+                <p>The solution does not stop at analytics. It carries the workflow from raw signal to prioritized PM action and executive storytelling.</p>
+            </div>
+        </section>
+
+        <section class="grid-four">
+            <article class="card"><p class="eyebrow">Signal</p><h3>Reactive work orders</h3><p>CAFM-like failure history provides the raw pattern substrate.</p></article>
+            <article class="card"><p class="eyebrow">Insight</p><h3>Recurring-pattern detection</h3><p>Grouped signature analysis isolates repeatable breakdown behavior.</p></article>
+            <article class="card"><p class="eyebrow">Prediction</p><h3>30/60/90 day risk</h3><p>Recurrence scoring prioritizes what is most likely to fail again soon.</p></article>
+            <article class="card"><p class="eyebrow">Action</p><h3>PM conversion</h3><p>High-risk patterns become planning-ready preventive schedules.</p></article>
+        </section>
+
+        <section class="grid-two">
+            <article class="panel">
+                <p class="eyebrow">Primary Personas</p>
+                <ul class="list">
+                    <li>SLT and account leadership needing a quantified value story.</li>
+                    <li>Facilities managers needing hotspot and risk visibility.</li>
+                    <li>PM planners needing a ranked, explainable backlog.</li>
+                    <li>Operational teams needing a cleaner move from reactive noise to planned execution.</li>
+                </ul>
+            </article>
+            <article class="panel">
+                <p class="eyebrow">User Outcomes</p>
+                <ul class="list">
+                    <li>See the most exposed facilities and assets instantly.</li>
+                    <li>Understand which patterns are recurring and why they matter.</li>
+                    <li>Generate PM schedules without manual back-office synthesis.</li>
+                    <li>Use the assistant for SLT summaries, risk framing, and action guidance.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="grid-three">
+            <article class="card"><p class="eyebrow">Experience Layer</p><h3>Dashboard + assistant + deck</h3><p>A premium interface pattern gives both operators and leaders a clean lens into the same intelligence engine.</p></article>
+            <article class="card"><p class="eyebrow">Analytics Layer</p><h3>Pattern + prediction + PM generation</h3><p>Explainable intermediate records preserve business trust and technical extensibility.</p></article>
+            <article class="card"><p class="eyebrow">Platform Layer</p><h3>FastAPI + SQLite pilot stack</h3><p>Low-friction setup accelerates pilot proof while preserving a clear production migration path.</p></article>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactive to PM Intelligence Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body class="dashboard-shell">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <main class="mx-auto max-w-7xl px-4 py-6 md:px-8">
+        <header class="hero-panel">
+            <div>
+                <p class="eyebrow">CBRE | INNOVATE 2026</p>
+                <h1>Reactive to PM Intelligence</h1>
+                <p class="hero-copy">Turn repeat breakdowns into predicted interventions, planned work, and measurable savings.</p>
+                <p class="hero-instruction">Click <strong>Generate Intelligence</strong> to build patterns, predictions, and recommended PM opportunities. Nothing is generated automatically on page load.</p>
+            </div>
+            <div class="hero-actions">
+                <button id="refresh-button" class="action-button tertiary"><i class="fa-solid fa-rotate"></i> Refresh View</button>
+                <button id="run-pipeline-button" class="action-button primary"><i class="fa-solid fa-bolt"></i> Generate Intelligence</button>
+                <button id="generate-button" class="action-button secondary" disabled><i class="fa-solid fa-sparkles"></i> Generate PM Schedules</button>
+            </div>
+        </header>
+
+        <section class="status-strip mt-4">
+            <div class="status-copy">
+                <p class="panel-kicker">Workflow</p>
+                <p id="status-message" class="status-message">Portfolio reference data is ready. Generate intelligence when you want to score patterns and create PM recommendations.</p>
+            </div>
+            <span id="status-badge" class="signal-pill">Awaiting generation</span>
+        </section>
+
+        <section id="portfolio-bar" class="overview-grid mt-6"></section>
+
+        <section id="kpi-grid" class="grid gap-4 md:grid-cols-2 xl:grid-cols-5"></section>
+
+        <section class="grid gap-6 xl:grid-cols-[1.2fr_0.8fr] mt-6">
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">Regularity Score</p>
+                        <h2>Recurring Pattern Timeline</h2>
+                    </div>
+                    <span id="top-pattern" class="signal-pill">Awaiting pipeline run</span>
+                </div>
+                <div class="timeline-chart-shell">
+                    <canvas id="timeline-chart"></canvas>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">AI Hotspots</p>
+                        <h2>Asset x Problem Heatmap</h2>
+                    </div>
+                </div>
+                <div id="heatmap-grid" class="heatmap-grid"></div>
+            </div>
+        </section>
+
+        <section class="grid gap-6 xl:grid-cols-[1fr_1fr] mt-6">
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">Top 10</p>
+                        <h2>Predicted Failure Risk</h2>
+                    </div>
+                </div>
+                <div id="predictions-table"></div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">Generated PM</p>
+                        <h2>Schedule Preview</h2>
+                    </div>
+                    <span class="signal-pill success">One-click automation</span>
+                </div>
+                <div id="pm-schedules" class="space-y-3"></div>
+            </div>
+        </section>
+
+        <section class="grid gap-6 xl:grid-cols-[1fr_0.8fr] mt-6">
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">Explainability</p>
+                        <h2>Prediction Drivers</h2>
+                    </div>
+                </div>
+                <div id="explainability-panel" class="grid gap-3 md:grid-cols-2"></div>
+            </div>
+            <div class="panel live-feed">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">Live Feed</p>
+                        <h2>Work Order Activity</h2>
+                    </div>
+                    <span class="pulse-indicator"></span>
+                </div>
+                <div id="live-feed-list" class="space-y-3"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="app-loader" class="app-loader hidden" aria-live="polite" aria-hidden="true">
+        <div class="loader-card">
+            <p class="panel-kicker">Loading Intelligence</p>
+            <h2 id="loader-title">Preparing portfolio context</h2>
+            <p id="loader-message" class="loader-message">Connecting to the operations model.</p>
+            <div class="loader-progress-track">
+                <div id="loader-progress-bar" class="loader-progress-bar"></div>
+            </div>
+            <div class="loader-steps">
+                <span id="loader-step-ingest" class="loader-step active">1. Prepare data</span>
+                <span id="loader-step-patterns" class="loader-step">2. Detect patterns</span>
+                <span id="loader-step-predictions" class="loader-step">3. Score risk</span>
+                <span id="loader-step-pm" class="loader-step">4. Refresh dashboard</span>
+            </div>
+        </div>
+    </div>
+
+    <aside id="assistant-shell" class="assistant-shell">
+        <button id="assistant-toggle" class="assistant-toggle" aria-label="Toggle assistant">
+            <i class="fa-solid fa-robot"></i>
+            <span>PM Copilot</span>
+        </button>
+        <section class="assistant-panel">
+            <header class="assistant-header">
+                <div>
+                    <p class="panel-kicker">Interactive Copilot</p>
+                    <h2>Ask the portfolio</h2>
+                    <p class="assistant-subcopy">Use the copilot after generation for concise answers, not exploratory drift.</p>
+                </div>
+                <div class="assistant-status">
+                    <span class="assistant-status-dot"></span>
+                    <span id="assistant-provider" class="signal-pill">mock</span>
+                </div>
+            </header>
+            <section class="assistant-action-group assistant-action-group-primary">
+                <div class="assistant-action-header">
+                    <span class="assistant-action-title">Quick actions</span>
+                </div>
+                <div id="assistant-chiplets" class="assistant-chiplets assistant-chiplets-rail"></div>
+            </section>
+            <section id="assistant-predictive-group" class="assistant-action-group assistant-action-group-secondary">
+                <div class="assistant-action-header">
+                    <span class="assistant-action-title">Next suggested</span>
+                </div>
+                <div id="assistant-predictive-chiplets" class="assistant-chiplets assistant-chiplets-rail assistant-chiplets-secondary"></div>
+            </section>
+            <div id="assistant-messages" class="assistant-messages"></div>
+            <form id="assistant-form" class="assistant-form assistant-composer">
+                <label class="sr-only" for="assistant-input">Assistant prompt</label>
+                <textarea id="assistant-input" rows="3" placeholder="Ask for an SLT summary, top risks, occupant impact, or PM actions..."></textarea>
+                <div class="assistant-form-row">
+                    <p class="assistant-hint">Press Enter to send. Use Shift+Enter for a new line.</p>
+                    <button id="assistant-send" type="submit" class="action-button primary">Send</button>
+                </div>
+            </form>
+        </section>
+    </aside>
+
+    <script type="module" src="./assets/app.js"></script>
+</body>
+</html>

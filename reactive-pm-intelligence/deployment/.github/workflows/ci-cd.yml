@@ -1,0 +1,32 @@
+name: CI-CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: reactive-pm-intelligence
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt bandit black flake8
+      - name: Generate demo data
+        run: python data/generate_demo_data.py
+      - name: Lint
+        run: |
+          flake8 backend data ml tests
+          black --check backend data ml tests
+      - name: Unit tests
+        run: pytest --cov=backend --cov-report=term-missing
+      - name: Security scan
+        run: bandit -r backend
+      - name: Docker build
+        run: docker build -f deployment/Dockerfile.backend .
